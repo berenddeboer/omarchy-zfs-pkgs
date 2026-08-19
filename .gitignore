@@ -1,0 +1,6 @@
+/omarchy/
+/x86_64/
+**/pkg/
+**/src/
+*.pkg.tar.*
+*.log
