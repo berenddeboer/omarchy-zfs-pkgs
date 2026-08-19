@@ -12,7 +12,7 @@ out_dir="${OUT_DIR:-$repo_root/x86_64}"
 
 pacman-key --init
 pacman-key --populate archlinux
-pacman -Syu --noconfirm --needed base-devel git pacman-contrib
+pacman -Syu --noconfirm --needed base-devel git pacman-contrib imagemagick
 
 if ! id builder >/dev/null 2>&1; then
   useradd -m builder

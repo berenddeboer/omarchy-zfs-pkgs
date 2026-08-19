@@ -23,6 +23,8 @@ jobs:
           repository: berenddeboer/omarchy
           ref: quattro-on-zfs
           path: omarchy
+          fetch-depth: 0
+          fetch-tags: true
 
       - name: Build packages
         run: |
