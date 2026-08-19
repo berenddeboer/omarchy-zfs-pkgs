@@ -17,7 +17,7 @@ SigLevel = Optional TrustAll
 Server = https://github.com/berenddeboer/omarchy-zfs-pkgs/releases/download/zfs
 ```
 
-Put `[omarchy-zfs]` above `[omarchy]` in `/etc/pacman.conf`. The packages use `epoch=1` so they win over official Omarchy builds of the same name.
+Put `[omarchy-zfs]` above `[omarchy]` in `/etc/pacman.conf`. Package versions include `.zfs` so they win over official Omarchy builds of the same name.
 
 ## Build locally
 

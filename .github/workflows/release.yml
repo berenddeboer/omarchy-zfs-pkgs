@@ -24,7 +24,9 @@ jobs:
           ref: quattro-on-zfs
           path: omarchy
           fetch-depth: 0
-          fetch-tags: true
+
+      - name: Fetch upstream version tags
+        run: git -C omarchy fetch --tags https://github.com/basecamp/omarchy.git
 
       - name: Build packages
         run: |
