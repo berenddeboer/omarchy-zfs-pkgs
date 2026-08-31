@@ -1,7 +1,7 @@
 # Maintainer: Berend de Boer <berend@pobox.com>
 pkgname='omarchy-settings-dev'
 pkgver=4.0.0.r847.g4de185b
-pkgrel=1
+pkgrel=2
 _pkgver_base=4.0.0
 _pkgver_base_tag=v3.8.2
 pkgdesc='Omarchy quattro-on-zfs settings (private ZFS fork)'
@@ -38,9 +38,10 @@ makedepends=(
 # backup=() is pacman's hook for protecting user edits to package-owned files
 # on upgrade. Only the paths the package actually installs into /etc qualify.
 # The etc-overrides set (faillock.conf, nsswitch.conf, cups-browsed.conf,
-# plymouthd.conf, /etc/skel/.bashrc) ships at /usr/share/omarchy/etc-overrides/
-# and is cp -f'd by post_install — those paths are unowned by pacman and the
-# scriptlet WILL clobber user edits on each upgrade (documented limitation).
+# cups-files.conf, plymouthd.conf, /etc/skel/.bashrc) ships at
+# /usr/share/omarchy/etc-overrides/ and is cp -f'd by post_install — those
+# paths are unowned by pacman and the scriptlet WILL clobber user edits on
+# each upgrade (documented limitation).
 backup=(
   'etc/fastfetch/config.jsonc'
   'etc/mkinitcpio.conf.d/omarchy_hooks.conf'
@@ -90,6 +91,7 @@ _etc_override_paths=(
   'etc/security/faillock.conf'
   'etc/nsswitch.conf'
   'etc/cups/cups-browsed.conf'
+  'etc/cups/cups-files.conf'
   'etc/plymouth/plymouthd.conf'
 )
 
@@ -224,6 +226,8 @@ EOF
         mv "$pkgdir/$path" "$pkgdir/usr/share/omarchy/etc-overrides/nsswitch.conf" ;;
       'etc/cups/cups-browsed.conf')
         mv "$pkgdir/$path" "$pkgdir/usr/share/omarchy/etc-overrides/cups-cups-browsed.conf" ;;
+      'etc/cups/cups-files.conf')
+        mv "$pkgdir/$path" "$pkgdir/usr/share/omarchy/etc-overrides/cups-cups-files.conf" ;;
       'etc/plymouth/plymouthd.conf')
         mv "$pkgdir/$path" "$pkgdir/usr/share/omarchy/etc-overrides/plymouth-plymouthd.conf" ;;
     esac
