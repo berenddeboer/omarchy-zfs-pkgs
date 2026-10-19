@@ -173,8 +173,6 @@ package() {
   install -Dm644 default/systemd/user/omarchy-fcitx5.service "$pkgdir/usr/lib/systemd/user/omarchy-fcitx5.service"
   install -Dm644 default/systemd/user/omarchy-crash-watch.service "$pkgdir/usr/lib/systemd/user/omarchy-crash-watch.service"
   install -Dm644 default/systemd/user/omarchy-speaker-tuning.service "$pkgdir/usr/lib/systemd/user/omarchy-speaker-tuning.service"
-  install -Dm644 default/systemd/user/omarchy-thunderbolt-authorization.service "$pkgdir/usr/lib/systemd/user/omarchy-thunderbolt-authorization.service"
-  install -Dm644 default/systemd/user/omarchy-usb-authorization.service "$pkgdir/usr/lib/systemd/user/omarchy-usb-authorization.service"
   # Marks app.slice (and only app.slice) as a systemd-oomd kill candidate, so
   # memory pressure costs one app scope instead of the compositor session.
   # Thresholds live in etc/systemd/oomd.conf.d/10-omarchy.conf.
