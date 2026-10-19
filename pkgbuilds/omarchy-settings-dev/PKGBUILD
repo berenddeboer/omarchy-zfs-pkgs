@@ -1,7 +1,7 @@
 # Maintainer: Berend de Boer <berend@pobox.com>
 pkgname='omarchy-settings-dev'
 pkgver=4.0.0.zfs.r2586.g0e96feb
-pkgrel=2
+pkgrel=3
 _pkgver_base=4.0.0
 _pkgver_base_tag=v3.8.2
 pkgdesc='Omarchy quattro-on-zfs settings (private ZFS fork)'
@@ -283,6 +283,16 @@ EOF
   # live root config.
   install -d "$pkgdir/usr/share/omarchy/default"
   cp -a default/. "$pkgdir/usr/share/omarchy/default/"
+
+  # Temporary sudo grants must remain revocable even if the desktop runtime
+  # is removed. Keep the helper, boot cleanup (from etc/), and ALPM hook together.
+  install -Dm644 default/libalpm/hooks/05-omarchy-passwordless-revoke.hook \
+    "$pkgdir/usr/share/libalpm/hooks/05-omarchy-passwordless-revoke.hook"
+  for helper in omarchy-sudo-passwordless omarchy-security-functions; do
+    install -Dm755 "bin/$helper" "$pkgdir/usr/bin/$helper"
+    install -d "$pkgdir/usr/share/omarchy/bin"
+    ln -s "/usr/bin/$helper" "$pkgdir/usr/share/omarchy/bin/$helper"
+  done
 
   # Snapper config template used by the install-time `snapper create-config`.
   install -Dm644 default/snapper/root \

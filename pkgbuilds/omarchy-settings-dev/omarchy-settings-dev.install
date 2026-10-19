@@ -36,10 +36,48 @@ _etc_overrides_apply() {
   fi
 }
 
+_passwordless_sudo_cleanup() (
+  local complete=${1:-0} file
+  # Announce the transaction before waiting for the same lock as publishers.
+  # Scriptlet errors do not abort pacman, so failures must leave this blocker.
+  (umask 077; : >/run/omarchy-sudo-passwordless-package-removing) || return 1
+  [[ -d /run/lock && ! -L /run/lock ]] || return 1
+  [[ $(/usr/bin/stat -Lc '%u' /run/lock) == 0 ]] || return 1
+  ! ((8#$(/usr/bin/stat -Lc '%a' /run/lock) & 022)) || return 1
+  exec 9>/run/lock/omarchy-sudo-passwordless.lock || return 1
+  chmod 0600 /run/lock/omarchy-sudo-passwordless.lock || return 1
+  /usr/bin/flock -x -w 60 9 || return 1
+  # Fallback for older installations without the pre-transaction hook.
+  set +f
+  unset GLOBIGNORE
+  shopt -s nullglob
+  for file in /etc/sudoers.d/99-omarchy-nopasswd-*; do
+    /usr/bin/rm -f -- "$file" || return 1
+    [[ ! -e $file && ! -L $file ]] || return 1
+  done
+  if (( complete )); then
+    [[ -f /etc/tmpfiles.d/omarchy-nopasswd-sudo.conf && -f /usr/share/libalpm/hooks/05-omarchy-passwordless-revoke.hook ]] || return 1
+    /usr/bin/rm -f /run/omarchy-sudo-passwordless-package-removing || return 1
+  fi
+)
+
+pre_upgrade() {
+  _passwordless_sudo_cleanup
+}
+
+pre_remove() {
+  _passwordless_sudo_cleanup
+}
+
+post_remove() {
+  _passwordless_sudo_cleanup
+}
+
 post_install() {
+  _passwordless_sudo_cleanup 1 || return 1
   _etc_overrides_apply
 }
 
 post_upgrade() {
-  _etc_overrides_apply
+  post_install
 }

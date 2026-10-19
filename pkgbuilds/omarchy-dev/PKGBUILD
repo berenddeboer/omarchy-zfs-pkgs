@@ -1,7 +1,7 @@
 # Maintainer: Berend de Boer <berend@pobox.com>
 pkgname='omarchy-dev'
 pkgver=4.0.0.r847.g4de185b
-pkgrel=1
+pkgrel=2
 _pkgver_base=4.0.0
 _pkgver_base_tag=v3.8.2
 pkgdesc='Omarchy quattro-on-zfs runtime (private ZFS fork)'
@@ -103,7 +103,7 @@ package() {
     local base
     base=$(basename "$bin")
     case "$base" in
-      omarchy-debug|omarchy-debug-idle|omarchy-upload-log)
+      omarchy-debug|omarchy-debug-idle|omarchy-upload-log|omarchy-sudo-passwordless|omarchy-security-functions)
         continue
         ;;
     esac
